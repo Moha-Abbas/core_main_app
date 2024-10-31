@@ -62,12 +62,31 @@ class LoadFormChangeWorkspace(View):
 
         is_administration = request.POST.get("administration", False) == "True"
 
+        # Preselect the document's current workspace, if it can be resolved.
+        # The document type isn't sent by the caller, so try both APIs -
+        # this endpoint is shared by the data and blob "Change workspace"
+        # actions.
+        document_id = request.POST.get("document_id")
+        current_workspace_id = None
+        if document_id:
+            document = None
+            try:
+                document = data_api.get_by_id(document_id, request.user)
+            except Exception:
+                try:
+                    document = blob_api.get_by_id(document_id, request.user)
+                except Exception:
+                    document = None
+            if document is not None and document.workspace is not None:
+                current_workspace_id = document.workspace.id
+
         try:
             form = ChangeWorkspaceForm(
                 request.user,
                 list(),
                 is_administration,
                 self.show_global_workspace,
+                current_workspace_id,
             )
         except DoesNotExist as dne:
             return HttpResponseBadRequest(escape(str(dne)))

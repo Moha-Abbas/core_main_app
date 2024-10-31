@@ -13,6 +13,10 @@ UNKNOWN_ERROR = "An unknown error occurred, please contact your administrator fo
 
 DATA_JSON_FIELD = "dict_content"
 
+# Searchable text of a record. Stored at the root of the document, next to
+# DATA_JSON_FIELD, not inside it.
+DATA_TEXT_FIELD = "text_content"
+
 DATA_FILE_EXTENSION_FOR_TEMPLATE_FORMAT = {"JSON": ".json", "XSD": ".xml"}
 
 DATA_FORMAT_FOR_TEMPLATE_FORMAT = {"JSON": "JSON", "XSD": "XML"}

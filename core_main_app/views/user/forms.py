@@ -109,9 +109,10 @@ class ChangeWorkspaceForm(forms.Form):
         list_current_workspace=None,
         is_administration=False,
         show_global_workspace=False,
+        current_workspace_id=None,
     ):
         self.WORKSPACES_OPTIONS = []
-        self.WORKSPACES_OPTIONS.append(("", "-----------"))
+        self.WORKSPACES_OPTIONS.append(("", "No workspace"))
 
         if not list_current_workspace:
             list_current_workspace = []
@@ -172,6 +173,9 @@ class ChangeWorkspaceForm(forms.Form):
         super().__init__()
         self.fields["workspaces"].choices = []
         self.fields["workspaces"].choices = self.WORKSPACES_OPTIONS
+        self.fields["workspaces"].initial = (
+            str(current_workspace_id) if current_workspace_id else ""
+        )
 
         if settings.BOOTSTRAP_VERSION.startswith("4"):
             self.fields["workspaces"].widget.attrs["class"] = "form-control"

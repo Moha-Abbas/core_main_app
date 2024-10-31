@@ -20,6 +20,7 @@ from core_main_app.settings import (
     XML_FORCE_LIST,
 )
 from core_main_app.utils import xml as xml_utils
+from core_main_app.utils.dict import get_dict_text
 from core_main_app.utils.json_utils import load_json_string
 
 logger = logging.getLogger(__name__)
@@ -36,6 +37,9 @@ try:
             data_id = mongo_fields.IntField(primary_key=True)
             title = mongo_fields.StringField()
             dict_content = mongo_fields.DictField()
+            # Title, element names and values of the record flattened into one
+            # string, so a keyword search can match any of them at once.
+            text_content = mongo_fields.StringField()
             creation_date = mongo_fields.DateTimeField()
             last_modification_date = mongo_fields.DateTimeField()
             last_change_date = mongo_fields.DateTimeField()
@@ -247,6 +251,14 @@ try:
                         list_limit=SEARCHABLE_DATA_OCCURRENCES_LIMIT,
                     )
 
+                mongo_data.text_content = " ".join(
+                    part
+                    for part in (
+                        mongo_data.title,
+                        get_dict_text(mongo_data.dict_content or {}),
+                    )
+                    if part
+                )
                 mongo_data._template_id = (
                     data_template.id if data_template else None
                 )

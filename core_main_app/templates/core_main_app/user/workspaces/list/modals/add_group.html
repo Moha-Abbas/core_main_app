@@ -1,6 +1,7 @@
 {% extends 'core_main_app/_render/admin/theme/tools/modal.html' %}
 
 {% block modal_id %}add-group-modal{% endblock %}
+{% block modal_class %}modal-dialog-scrollable{% endblock %}
 {% block modal_title %} Give group rights to workspace {% endblock %}
 
 {% block modal_body %}
@@ -15,29 +16,21 @@
     </p>
     <form id="add-group-form" class="multiple-select-form p-2 my-3">
     </form>
-    <div id="list-rights">
-        <div class="row m-2">
-            <div class="col-sm-1 mx-1">
-                <label class="switch">
-                    <input type="checkbox" id="read_group">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <div class="col">
-                Read
-            </div>
-        </div>
-        <div class="row m-2">
-            <div class="col-sm-1 mx-1">
-                <label class="switch">
-                    <input type="checkbox" id="write_group">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <div class="col">
-                Write
-            </div>
-        </div>
+    <div id="list-rights" class="am-rights-row">
+        <label class="am-rights-toggle">
+            <span>Read</span>
+            <span class="switch">
+                <input type="checkbox" id="read_group">
+                <span class="slider"></span>
+            </span>
+        </label>
+        <label class="am-rights-toggle">
+            <span>Write</span>
+            <span class="switch">
+                <input type="checkbox" id="write_group">
+                <span class="slider"></span>
+            </span>
+        </label>
     </div>
 </div>
 {% endblock %}
